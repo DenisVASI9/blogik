@@ -1,0 +1,15 @@
+.article-page {
+  &__container {
+    width: 50%;
+    margin: 0 auto;
+
+    @media screen and (max-width: 990px){
+      width: 80%;
+    }
+
+    @media screen and (max-width: 495px){
+      width: 100%;
+      padding: 0 28px;
+    }
+  }
+}
