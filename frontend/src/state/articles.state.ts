@@ -4,7 +4,7 @@ import {ArticlesService} from "../services/articles/articles.service";
 export const articlesSelector = selector({
     key: "articles",
     get: async () => {
-        return await ArticlesService.getAll()
+        return await ArticlesService.getByPage()
     }
 })
 

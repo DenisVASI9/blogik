@@ -1,8 +1,8 @@
 import {IArticlesResponse, NewArticle} from "./interfaces";
 
 export class ArticlesService {
-    static async getAll(): Promise<IArticlesResponse> {
-        const uri = "http://localhost:3000/articles"
+    static async getByPage(page: number = 1): Promise<IArticlesResponse> {
+        const uri = `http://localhost:3000/articles/${page}`
         return fetch(uri).then(res => res.json())
     }
 
