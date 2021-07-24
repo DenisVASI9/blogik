@@ -1,40 +1,23 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
 import { diskStorage } from "multer";
 import { extname } from "path";
-import { existsSync, mkdirSync } from "fs";
-import { v4 as uuid } from "uuid";
 
 export const multerOptions = {
-  // Enable file size limits
-  limits: {
-    fileSize: +process.env.MAX_FILE_SIZE
-  },
-  // Check the mimetypes to allow for upload
-  fileFilter: (req: any, file: any, cb: any) => {
-    console.log(file);
-    if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
-      // Allow storage of file
-      cb(null, true);
-    } else {
-      // Reject file
-      cb(new HttpException(`Unsupported file type ${extname(file.originalname)}`, HttpStatus.BAD_REQUEST), false);
-    }
-  },
-  // Storage properties
   storage: diskStorage({
-    // Destination storage path details
-    destination: (req: any, file: any, cb: any) => {
-      const uploadPath = process.env.FILE_STORE
-      // Create folder if doesn't exist
-      if (!existsSync(uploadPath)) {
-        mkdirSync(uploadPath);
-      }
-      cb(null, uploadPath);
+    destination: process.env.FILE_STORE,
+    filename: (req, file, callback) => {
+      const name = file.originalname.split('.')[0];
+      const fileExtName = extname(file.originalname);
+      const randomName = Array(4)
+        .fill(null)
+        .map(() => Math.round(Math.random() * 16).toString(16))
+        .join('');
+      callback(null, `${name}-${randomName}${fileExtName}`);
     },
-    // File modification details
-    filename: (req: any, file: any, cb: any) => {
-      // Calling the callback passing the random name generated with the original extension name
-      cb(null, `${uuid()}${extname(file.originalname)}`);
+  }),
+  fileFilter: (req, file, callback) => {
+    if (!(file.mimetype.indexOf('markdown') + 1)) {
+      return callback(new Error('Only markdown files are allowed!'), false);
     }
-  })
+    callback(null, true);
+  },
 };

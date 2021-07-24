@@ -4,19 +4,16 @@ import { ArticlesController } from "./controllers/articles.controller";
 import { ArticlesService } from "./services/articles.service";
 import { ArticlesRepository } from "./repositories/article.repository";
 import { MulterModule } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
+import { ConfigService } from "@nestjs/config";
 
 @Module({
   imports: [
     MulterModule.register({
-      dest: process.env.FILE_STORE,
-      storage: diskStorage({
-        destination: process.env.FILE_STORE,
-      })
+      dest: process.env.FILE_STORE
     })
   ],
   controllers: [ArticlesController],
-  providers: [PgService, ArticlesService, ArticlesRepository]
+  providers: [PgService, ConfigService, ArticlesService, ArticlesRepository]
 })
 export class ArticlesModule {
 }

@@ -17,4 +17,8 @@ export class ArticlesService {
       encoding: "utf-8"
     });
   }
+
+  async createArticle(article) {
+    console.log(article);
+  }
 }
