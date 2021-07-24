@@ -1,4 +1,4 @@
-import {selector, selectorFamily} from "recoil";
+import { selector, selectorFamily } from "recoil";
 import {ArticlesService} from "../services/articles/articles.service";
 
 export const articlesSelector = selector({

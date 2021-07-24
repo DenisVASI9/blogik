@@ -2,7 +2,7 @@ import {IArticlesResponse, NewArticle} from "./interfaces";
 
 export class ArticlesService {
     static async getByPage(page: number = 1): Promise<IArticlesResponse> {
-        const uri = `http://localhost:3000/articles/${page}`
+        const uri = `http://localhost:3000/articles/page/${page}`
         return fetch(uri).then(res => res.json())
     }
 
