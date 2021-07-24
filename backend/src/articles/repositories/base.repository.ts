@@ -1,8 +1,14 @@
 export class BaseRepository {
-  async parseMany(result) {
+  parseMany(result) {
     return {
       data: result.rows,
-      count: result.rowCount,
+      count: result.rowCount
+    };
+  }
+
+  parseManyToOne(result) {
+    return {
+      data: result.rows.pop(),
     };
   }
 }

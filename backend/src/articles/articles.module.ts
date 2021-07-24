@@ -5,11 +5,12 @@ import { ArticlesService } from "./services/articles.service";
 import { ArticlesRepository } from "./repositories/article.repository";
 import { MulterModule } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
+import { config } from "../../configuration";
 
 @Module({
   imports: [
     MulterModule.register({
-      dest: process.env.FILE_STORE
+      dest: config.FILE_STORE
     })
   ],
   controllers: [ArticlesController],

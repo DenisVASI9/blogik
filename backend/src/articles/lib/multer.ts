@@ -1,9 +1,12 @@
 import { diskStorage } from "multer";
 import { extname } from "path";
+import { config } from "../../../configuration";
+
+export const FILE_STORAGE = config.FILE_STORE
 
 export const multerOptions = {
   storage: diskStorage({
-    destination: process.env.FILE_STORE,
+    destination: FILE_STORAGE,
     filename: (req, file, callback) => {
       const name = file.originalname.split('.')[0];
       const fileExtName = extname(file.originalname);

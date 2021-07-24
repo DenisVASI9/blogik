@@ -1,11 +1,18 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, OnModuleInit } from "@nestjs/common";
 import { ArticlesRepository } from "../repositories/article.repository";
 import * as fs from "fs";
 import * as path from "path";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
-export class ArticlesService {
-  constructor(private readonly articlesRepository: ArticlesRepository) {
+export class ArticlesService implements OnModuleInit {
+  constructor(private readonly articlesRepository: ArticlesRepository, private readonly configService: ConfigService) {
+  }
+
+  files = '/tmp'
+
+  onModuleInit(): void {
+    this.files = this.configService.get<string>('FILE_STORE')
   }
 
   async getArticlesPreview() {
@@ -13,12 +20,12 @@ export class ArticlesService {
   }
 
   async getArticle(filename: string) {
-    return fs.readFileSync(path.resolve(process.env.FILE_STORE, filename), {
+    return fs.readFileSync(path.resolve(this.files, filename), {
       encoding: "utf-8"
     });
   }
 
   async createArticle(article) {
-    console.log(article);
+    return this.articlesRepository.insertOne(article);
   }
 }
