@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import marked from "../../lib/marked";
 
 export const ArticlePreviewController: IArticlePreviewController = (props) => {
-  const { View, ...oth } = props;
+  const { View, title, ...oth } = props;
 
   let history = useHistory();
 
@@ -19,6 +19,7 @@ export const ArticlePreviewController: IArticlePreviewController = (props) => {
 
   return <View
     {...oth}
+    title={marked(title)}
     description={marked(oth.description)}
     createdAt={createdAt}
     goToArticle={goToArticle}
