@@ -10,7 +10,15 @@ export class ArticlesService {
         if (!path) {
             throw new Error("path must be a string")
         }
-        const uri = `http://localhost:3000/articles/${path}`
+        const uri = `http://localhost:3000/articles/file/${path}`
+        return fetch(uri).then(res => res.text())
+    }
+
+    static async getArticleById(id: string) {
+        if (!id) {
+            throw new Error("id must be a string")
+        }
+        const uri = `http://localhost:3000/articles/get/${id}`
         return fetch(uri).then(res => res.text())
     }
 

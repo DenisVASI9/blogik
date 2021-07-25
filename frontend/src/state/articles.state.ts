@@ -27,3 +27,15 @@ export const articleTextSelector = selectorFamily({
         return await ArticlesService.getArticleText(articlePath)
     }
 })
+
+export const articleByIdSelector = selectorFamily({
+    key: "articleText",
+    get: (id: string) => async () => {
+
+        if (!id) {
+            throw new Error("article path must be a string")
+        }
+
+        return await ArticlesService.getArticleById(id)
+    }
+})

@@ -9,6 +9,7 @@ export interface IArticle {
 export interface IArticlesResponse {
     data: IArticle[]
     count: number
+    next: boolean
 }
 
 export interface NewArticle {

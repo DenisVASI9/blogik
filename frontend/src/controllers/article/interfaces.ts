@@ -2,7 +2,6 @@ import {Controller} from "../../lib/components/interfaces";
 
 export interface IArticleParams {
     text: string
-    title?: string
 }
 
 export interface IArticleActions {
