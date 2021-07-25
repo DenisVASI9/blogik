@@ -19,7 +19,6 @@ export const ArticlesController: IArticlesController = (props) => {
         window.addEventListener('scroll', listener)
 
         return () => {
-            console.log('umount')
             window.removeEventListener('scroll', listener)
         };
     }, []);
