@@ -15,5 +15,5 @@ export const ArticleController: IArticleController = (props) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  return <View text={marked(articleById)} />;
+  return <View text={marked("### articleById")} />;
 };

@@ -1,27 +1,39 @@
-import React, { useLayoutEffect } from "react";
-import {IArticlesController} from "./interfaces";
-import {useRecoilValue} from "recoil";
-import {articlesSelector} from "../../state/articles.state";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { IArticlesController } from "./interfaces";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { articlesAtom } from "../../state/articles.state";
+import { ArticlesService } from "../../services/articles/articles.service";
 
 export const ArticlesController: IArticlesController = (props) => {
 
-    const {View} = props
+  const { View } = props;
 
-    const articles = useRecoilValue(articlesSelector);
+  const articles = useRecoilValue(articlesAtom);
+  const setArticles = useSetRecoilState(articlesAtom);
 
-    useLayoutEffect(() => {
-        const listener = () => {
-            if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
-                alert("123");
-            }
-        }
+  const [page, setPage] = useState(1);
 
-        window.addEventListener('scroll', listener)
+  useEffect(() => {
+    if (articles.next) {
+      ArticlesService.getByPageSafe(page).then((either) => {
+        console.log(either);
+      })
+    }
+  }, [page]);
 
-        return () => {
-            window.removeEventListener('scroll', listener)
-        };
-    }, []);
+  useLayoutEffect(() => {
+    const listener = () => {
+      if ((window.innerHeight + window.pageYOffset >= document.body.offsetHeight) && articles.next) {
+        setPage((page) => page + 1);
+      }
+    };
 
-    return <View articles={articles}/>
-}
+    window.addEventListener("scroll", listener);
+
+    return () => {
+      window.removeEventListener("scroll", listener);
+    };
+  }, []);
+
+  return <View articles={articles} />;
+};
